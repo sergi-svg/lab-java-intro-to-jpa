@@ -17,7 +17,27 @@ public class Customer {
     @Column(name = "total_mileage")
     private int totalCustomerMileage;
 
-    public Customer(){}
+    @AttributeOverrides({
+            @AttributeOverride(name = "name", column = @Column(name = "emergency_contact_name")),
+            @AttributeOverride(name = "phone", column = @Column(name = "emergency_contact_phone"))
+    })
+    @Embedded
+    Contact emergencyContact;
+
+    @Embedded
+    Address permanentAddress;
+
+    @AttributeOverrides({
+            @AttributeOverride(name = "street", column = @Column(name = "current_street")),
+            @AttributeOverride(name = "number", column = @Column(name = "current_number")),
+            @AttributeOverride(name = "city", column = @Column(name = "current_city")),
+            @AttributeOverride(name = "postalCode", column = @Column(name = "current_postal_code"))
+    })
+    @Embedded
+    Address currentAddress;
+
+    public Customer() {
+    }
 
     public Customer(String customerName, CustomerStatus customerStatus, int totalCustomerMileage) {
         this.customerName = customerName;
